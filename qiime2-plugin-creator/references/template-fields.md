@@ -1,9 +1,7 @@
 # QIIME 2 Plugin Template Fields
 
-Source: `https://github.com/caporaso-lab/plugin-template/blob/main/copier.yaml`  
-Retrieved: March 1, 2026
-
-Use this file when you need the current Copier answer keys for the QIIME 2 plugin template.
+Source: `https://github.com/caporaso-lab/plugin-template`
+Retrieved: April 5, 2026
 
 ## Fields
 
@@ -49,21 +47,3 @@ Use this file when you need the current Copier answer keys for the QIIME 2 plugi
   Default: `skip-license`
   Choices: `BSD-3-Clause`, `MIT`, `Apache-2.0`, `skip-license`
   Purpose: License selection. `skip-license` leaves room for a custom license or retaining all rights.
-
-## Direct Copier Pattern
-
-```bash
-copier copy --vcs-ref HEAD --defaults \
-  --data package_name=q2-my-plugin \
-  --data module_name=q2_my_plugin \
-  --data plugin_name=my-plugin \
-  --data author_name="Your Name" \
-  --data author_email="you@example.com" \
-  --data project_url="https://example.com/q2-my-plugin" \
-  --data plugin_description="Longer plugin description." \
-  --data plugin_short_description="Short plugin description." \
-  --data target_distro=tiny \
-  --data license=BSD-3-Clause \
-  https://github.com/caporaso-lab/plugin-template \
-  /path/to/destination
-```
