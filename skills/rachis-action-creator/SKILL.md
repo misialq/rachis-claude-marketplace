@@ -1,5 +1,5 @@
 ---
-name: qiime2-action-creator
+name: rachis-action-creator
 description: Extend an existing QIIME 2 plugin by adding a new method or visualizer
 ---
 

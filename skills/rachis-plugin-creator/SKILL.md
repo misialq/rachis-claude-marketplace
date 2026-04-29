@@ -1,5 +1,5 @@
 ---
-name: qiime2-plugin-creator
+name: rachis-plugin-creator
 description: Scaffold new QIIME 2 plugins from the official template
 ---
 
