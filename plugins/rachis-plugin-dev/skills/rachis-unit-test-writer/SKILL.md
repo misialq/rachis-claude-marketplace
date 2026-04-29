@@ -1,6 +1,6 @@
 ---
 name: rachis-unit-test-writer
-description: Write or update unit tests for QIIME 2 plugin code.
+description: Write or update unit tests for QIIME 2 plugin code
 ---
 
 # QIIME 2 Unit Test Writer

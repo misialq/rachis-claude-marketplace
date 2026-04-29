@@ -1,5 +1,5 @@
 {
-    "name": "rachis-dev-plugin",
+    "name": "rachis-plugin-dev",
     "description": "A plugin to help with Rachis plugin development",
     "version": "1.0.0",
     "author": {

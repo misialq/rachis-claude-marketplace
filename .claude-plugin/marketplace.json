@@ -1,0 +1,14 @@
+{
+  "name": "rachis-dev-tools",
+  "description": "A collection of tools for Rachis plugin development",
+  "owner": {
+    "name": "Michał Ziemski",
+    "email": "ziemski.michal@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "rachis-plugin-dev",
+      "source": "./plugins/rachis-plugin-dev"
+    }
+  ]
+}
