@@ -1,7 +1,7 @@
 {
     "name": "rachis-plugin-dev",
     "description": "A plugin to help with Rachis plugin development",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "author": {
       "name": "Michał Ziemski"
     }

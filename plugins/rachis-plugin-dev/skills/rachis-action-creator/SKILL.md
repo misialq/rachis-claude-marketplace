@@ -17,22 +17,24 @@ Add a CLI-backed action to an existing QIIME 2 plugin. Retrieve the current QIIM
 4. Decide the action kind before editing:
    - Use a method when the action should return one or more artifacts.
    - Use a visualizer when the action should write report files into `output_dir`, return `None` and create a visual output.
-5. Read [references/action-patterns.md](references/action-patterns.md). Reuse the method or visualizer skeleton there instead of rewriting the `subprocess.run` pattern from scratch.
+5. Read [references/action-patterns.md](references/action-patterns.md). Reuse the method or visualizer skeleton there instead of rewriting command execution patterns from scratch.
 6. Add the external package to `conda-recipe/meta.yaml` or `meta.yml` if the plugin repo maintains one.
 7. Implement the callable in the appropriate module. Keep command construction explicit, pass arguments as a list, avoid `shell=True`, and convert external-tool failures into clear Python exceptions.
-8. Register the callable in `plugin_setup.py` with matching imports, input or parameter or output types, descriptions, and citations. Follow the import pattern in [references/action-patterns.md](references/action-patterns.md) to ensure all types and semantic primitives are imported correctly.
-9. Add a citation entry in `citations.bib` when the wrapped tool has a paper or required citation text. Follow the BibTeX pattern in [references/action-patterns.md](references/action-patterns.md).
-10. Add or update tests. Cover success-path output handling and at least one failure case for the external command. Add a small synthetic dataset which is well suited for a human visual inspection and use it in an integration test.
-11. Validate registration by importing the plugin module in a Python shell or running `qiime <plugin-name> --help` and confirming the new action appears.
-12. Keep file names and API style aligned with the plugin's existing conventions. If the plugin does not already have a `_visualizers.py` module or visualization tests, create them only when the new action requires them.
-13. Create a conda environment using one of the environment files but install the plugin from the current working directory using pip rather than point to a GitHub repository (it may not exist yet). Never modify existing conda environments.
-14. Run `qiime dev refresh-cache` in that environment followed by `qiime <plugin-name> --help`. Make sure that the returned action list contains the new action.
+8. Always wrap external command execution using `references/run_command.py` and call its `run_command` helper instead of invoking `subprocess.run` directly in action code. Copy that helper exactly, including user-facing messaging.
+9. Register the callable in `plugin_setup.py` with matching imports, input or parameter or output types, descriptions, and citations. Follow the import pattern in [references/action-patterns.md](references/action-patterns.md) to ensure all types and semantic primitives are imported correctly.
+10. Add a citation entry in `citations.bib` when the wrapped tool has a paper or required citation text. Follow the BibTeX pattern in [references/action-patterns.md](references/action-patterns.md).
+11. Add or update tests. Cover success-path output handling and at least one failure case for the external command. Add a small synthetic dataset which is well suited for a human visual inspection and use it in an integration test.
+12. Validate registration by importing the plugin module in a Python shell or running `qiime <plugin-name> --help` and confirming the new action appears.
+13. Keep file names and API style aligned with the plugin's existing conventions. If the plugin does not already have a `_visualizers.py` module or visualization tests, create them only when the new action requires them.
+14. Create a conda environment using one of the environment files but install the plugin from the current working directory using pip rather than point to a GitHub repository (it may not exist yet). Never modify existing conda environments.
+15. Run `qiime dev refresh-cache` in that environment followed by `qiime <plugin-name> --help`. Make sure that the returned action list contains the new action.
 
 ## Implementation Notes
 
 - Preserve the plugin's existing package structure and naming. Prefer editing the plugin's established action modules over inventing a new layout.
 - Use `pyproject.toml` as the single source of truth for the `[qiime2.plugins]` entry point. Do not use `setup.py`. Use `conda-recipe/meta.yaml` or `meta.yml` if the plugin repo maintains one for the source of truth for dependencies. If not present, use the latest environment file from the `environment-files` directory.
 - Treat the external executable as an environment dependency, not a runtime discovery problem. Prefer packaging fixes in `conda-recipe/meta.yaml` or `meta.yml` (if present) as well as environment files in the `environment-files` directory over adding `shutil.which` guards.
+- Use the required `run_command` helper for all external tool invocations; do not call `subprocess.run` directly from action implementations.
 - Prefer small, typed helper functions around serialization and command execution when the external tool needs several files.
 - When the tool expects file paths instead of in-memory views, stage inputs in a temporary working directory and load outputs back into the declared QIIME 2 return type.
 - When the tool produces visualization assets, write final files into the provided `output_dir`. Use a temporary directory only for intermediate files.
@@ -41,4 +43,5 @@ Add a CLI-backed action to an existing QIIME 2 plugin. Retrieve the current QIIM
 ## References
 
 - Read [references/action-patterns.md](references/action-patterns.md) for reusable code skeletons, registration snippets, citation format, and test guidance.
+- Use `references/run_command.py` as the canonical command-wrapper reference; do not alter its messaging when copying into plugin action code.
 - Refresh the QIIME 2 docs if the user asks to target a newer developer guide revision or if the local plugin uses APIs newer than the captured examples.
